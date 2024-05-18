@@ -1,0 +1,220 @@
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" data-content_root="../../../../">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>rcds.project.config &mdash; rCDS  documentation</title>
+      <link rel="stylesheet" type="text/css" href="../../../../_static/pygments.css?v=80d5e7a1" />
+      <link rel="stylesheet" type="text/css" href="../../../../_static/css/theme.css?v=19f00094" />
+
+  
+  <!--[if lt IE 9]>
+    <script src="../../../../_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  
+        <script src="../../../../_static/jquery.js?v=5d32c60e"></script>
+        <script src="../../../../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+        <script src="../../../../_static/documentation_options.js?v=187304be"></script>
+        <script src="../../../../_static/doctools.js?v=9a2dae69"></script>
+        <script src="../../../../_static/sphinx_highlight.js?v=dc90522c"></script>
+    <script src="../../../../_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="../../../../genindex/" />
+    <link rel="search" title="Search" href="../../../../search/" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+
+          
+          
+          <a href="../../../../" class="icon icon-home">
+            rCDS
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../../../../search/" method="get">
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../../">Introduction</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Contents</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../../project/"><code class="docutils literal notranslate"><span class="pre">rcds.yaml</span></code> — Project Config</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../challenge/"><code class="docutils literal notranslate"><span class="pre">challenge.yaml</span></code> — Challenge Config</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../backends/">Running rCDS for an Event</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../backends/#deployment-backends">Deployment Backends</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../config-samples/">Sample Configs</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../contributing/">Contributing to rCDS</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Backends</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../../backends/rctf/"><code class="docutils literal notranslate"><span class="pre">rctf</span></code> — rCTF</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../backends/k8s/"><code class="docutils literal notranslate"><span class="pre">k8s</span></code> — Kubernetes</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">API Reference</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../../api/project/"><code class="xref py py-mod docutils literal notranslate"><span class="pre">rcds.project</span></code> — Projects</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../api/challenge/"><code class="xref py py-mod docutils literal notranslate"><span class="pre">rcds.challenge</span></code> — Challenges</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../../../../">rCDS</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="../../../../" class="icon icon-home" aria-label="Home"></a></li>
+          <li class="breadcrumb-item"><a href="../../../">Module code</a></li>
+      <li class="breadcrumb-item active">rcds.project.config</li>
+      <li class="wy-breadcrumbs-aside">
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <h1>Source code for rcds.project.config</h1><div class="highlight"><pre>
+<span></span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">Functions for loading project config files</span>
+<span class="sd">&quot;&quot;&quot;</span>
+
+<span class="kn">from</span> <span class="nn">itertools</span> <span class="kn">import</span> <span class="n">tee</span>
+<span class="kn">from</span> <span class="nn">pathlib</span> <span class="kn">import</span> <span class="n">Path</span>
+<span class="kn">from</span> <span class="nn">typing</span> <span class="kn">import</span> <span class="n">Any</span><span class="p">,</span> <span class="n">Dict</span><span class="p">,</span> <span class="n">Iterable</span><span class="p">,</span> <span class="n">Optional</span><span class="p">,</span> <span class="n">Tuple</span><span class="p">,</span> <span class="n">Union</span><span class="p">,</span> <span class="n">cast</span>
+
+<span class="kn">import</span> <span class="nn">jsonschema</span>  <span class="c1"># type: ignore</span>
+
+<span class="kn">from</span> <span class="nn">rcds</span> <span class="kn">import</span> <span class="n">errors</span>
+
+<span class="kn">from</span> <span class="nn">..util</span> <span class="kn">import</span> <span class="n">load_any</span>
+<span class="kn">from</span> <span class="nn">..util.jsonschema</span> <span class="kn">import</span> <span class="n">DefaultValidatingDraft7Validator</span>
+
+<span class="n">config_schema_validator</span> <span class="o">=</span> <span class="n">DefaultValidatingDraft7Validator</span><span class="p">(</span>
+    <span class="n">schema</span><span class="o">=</span><span class="n">load_any</span><span class="p">(</span><span class="n">Path</span><span class="p">(</span><span class="vm">__file__</span><span class="p">)</span><span class="o">.</span><span class="n">parent</span> <span class="o">/</span> <span class="s2">&quot;rcds.schema.yaml&quot;</span><span class="p">),</span>
+    <span class="n">format_checker</span><span class="o">=</span><span class="n">jsonschema</span><span class="o">.</span><span class="n">draft7_format_checker</span><span class="p">,</span>
+<span class="p">)</span>
+
+
+<div class="viewcode-block" id="parse_config">
+<a class="viewcode-back" href="../../../../api/project/#rcds.project.config.parse_config">[docs]</a>
+<span class="k">def</span> <span class="nf">parse_config</span><span class="p">(</span>
+    <span class="n">config_file</span><span class="p">:</span> <span class="n">Path</span><span class="p">,</span>
+<span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Iterable</span><span class="p">[</span><span class="n">Union</span><span class="p">[</span><span class="n">errors</span><span class="o">.</span><span class="n">ValidationError</span><span class="p">,</span> <span class="n">Dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">Any</span><span class="p">]]]:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Load and validate a config file, returning both the config and any</span>
+<span class="sd">    errors encountered.</span>
+
+<span class="sd">    :param pathlib.Path config_file: The challenge config to load</span>
+<span class="sd">    :returns: Iterable containing any errors (all instances of</span>
+<span class="sd">        :class:`rcds.errors.ValidationError`) and the parsed config. The config will</span>
+<span class="sd">        always be last.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="c1"># root = config_file.parent</span>
+    <span class="n">config</span> <span class="o">=</span> <span class="n">load_any</span><span class="p">(</span><span class="n">config_file</span><span class="p">)</span>
+    <span class="n">schema_errors</span><span class="p">:</span> <span class="n">Iterable</span><span class="p">[</span><span class="n">errors</span><span class="o">.</span><span class="n">SchemaValidationError</span><span class="p">]</span> <span class="o">=</span> <span class="p">(</span>
+        <span class="n">errors</span><span class="o">.</span><span class="n">SchemaValidationError</span><span class="p">(</span><span class="nb">str</span><span class="p">(</span><span class="n">e</span><span class="p">),</span> <span class="n">e</span><span class="p">)</span>
+        <span class="k">for</span> <span class="n">e</span> <span class="ow">in</span> <span class="n">config_schema_validator</span><span class="o">.</span><span class="n">iter_errors</span><span class="p">(</span><span class="n">config</span><span class="p">)</span>
+    <span class="p">)</span>
+    <span class="c1"># Make a duplicate to check whethere there are errors returned</span>
+    <span class="n">schema_errors</span><span class="p">,</span> <span class="n">schema_errors_dup</span> <span class="o">=</span> <span class="n">tee</span><span class="p">(</span><span class="n">schema_errors</span><span class="p">)</span>
+    <span class="c1"># This is the same test as used in Validator.is_valid</span>
+    <span class="k">if</span> <span class="nb">next</span><span class="p">(</span><span class="n">schema_errors_dup</span><span class="p">,</span> <span class="kc">None</span><span class="p">)</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="k">yield from</span> <span class="n">schema_errors</span>
+    <span class="k">yield</span> <span class="n">config</span></div>
+
+
+
+<div class="viewcode-block" id="check_config">
+<a class="viewcode-back" href="../../../../api/project/#rcds.project.config.check_config">[docs]</a>
+<span class="k">def</span> <span class="nf">check_config</span><span class="p">(</span>
+    <span class="n">config_file</span><span class="p">:</span> <span class="n">Path</span><span class="p">,</span>
+<span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Tuple</span><span class="p">[</span><span class="n">Optional</span><span class="p">[</span><span class="n">Dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">Any</span><span class="p">]],</span> <span class="n">Optional</span><span class="p">[</span><span class="n">Iterable</span><span class="p">[</span><span class="n">errors</span><span class="o">.</span><span class="n">ValidationError</span><span class="p">]]]:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Load and validate a config file, returning any errors encountered.</span>
+
+<span class="sd">    If the config file is valid, the tuple returned contains the loaded config as</span>
+<span class="sd">    the first element, and the second element is None. Otherwise, the second</span>
+<span class="sd">    element is an iterable of errors that occurred during validation</span>
+
+<span class="sd">    This method wraps :func:`parse_config`.</span>
+
+<span class="sd">    :param pathlib.Path config_file: The challenge config to load</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">load_data</span> <span class="o">=</span> <span class="n">parse_config</span><span class="p">(</span><span class="n">config_file</span><span class="p">)</span>
+    <span class="n">load_data</span><span class="p">,</span> <span class="n">load_data_dup</span> <span class="o">=</span> <span class="n">tee</span><span class="p">(</span><span class="n">load_data</span><span class="p">)</span>
+    <span class="n">first</span> <span class="o">=</span> <span class="nb">next</span><span class="p">(</span><span class="n">load_data_dup</span><span class="p">)</span>
+    <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">first</span><span class="p">,</span> <span class="n">errors</span><span class="o">.</span><span class="n">ValidationError</span><span class="p">):</span>
+        <span class="n">validation_errors</span> <span class="o">=</span> <span class="n">cast</span><span class="p">(</span>
+            <span class="n">Iterable</span><span class="p">[</span><span class="n">errors</span><span class="o">.</span><span class="n">ValidationError</span><span class="p">],</span>
+            <span class="nb">filter</span><span class="p">(</span><span class="k">lambda</span> <span class="n">v</span><span class="p">:</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">v</span><span class="p">,</span> <span class="n">errors</span><span class="o">.</span><span class="n">ValidationError</span><span class="p">),</span> <span class="n">load_data</span><span class="p">),</span>
+        <span class="p">)</span>
+        <span class="k">return</span> <span class="p">(</span><span class="kc">None</span><span class="p">,</span> <span class="n">validation_errors</span><span class="p">)</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="k">return</span> <span class="p">(</span><span class="n">first</span><span class="p">,</span> <span class="kc">None</span><span class="p">)</span></div>
+
+
+
+<div class="viewcode-block" id="load_config">
+<a class="viewcode-back" href="../../../../api/project/#rcds.project.config.load_config">[docs]</a>
+<span class="k">def</span> <span class="nf">load_config</span><span class="p">(</span><span class="n">config_file</span><span class="p">:</span> <span class="n">Path</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">Any</span><span class="p">]:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Loads a config file, or throw an exception if it is not valid</span>
+
+<span class="sd">    This method wraps :func:`check_config`, and throws the first error returned</span>
+<span class="sd">    if there are any errors.</span>
+
+<span class="sd">    :param pathlib.Path config_file: The challenge config to load</span>
+<span class="sd">    :returns: The loaded config</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">config</span><span class="p">,</span> <span class="n">errors</span> <span class="o">=</span> <span class="n">check_config</span><span class="p">(</span><span class="n">config_file</span><span class="p">)</span>
+    <span class="k">if</span> <span class="n">errors</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="k">raise</span> <span class="nb">next</span><span class="p">(</span><span class="nb">iter</span><span class="p">(</span><span class="n">errors</span><span class="p">))</span>
+    <span class="c1"># errors is None</span>
+    <span class="k">assert</span> <span class="n">config</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span>
+    <span class="k">return</span> <span class="n">config</span></div>
+
+</pre></div>
+
+           </div>
+          </div>
+          <footer>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2020, redpwn.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

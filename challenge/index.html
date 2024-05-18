@@ -1,0 +1,289 @@
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" data-content_root="../">
+<head>
+  <meta charset="utf-8" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>challenge.yaml — Challenge Config &mdash; rCDS  documentation</title>
+      <link rel="stylesheet" type="text/css" href="../_static/pygments.css?v=80d5e7a1" />
+      <link rel="stylesheet" type="text/css" href="../_static/css/theme.css?v=19f00094" />
+
+  
+  <!--[if lt IE 9]>
+    <script src="../_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  
+        <script src="../_static/jquery.js?v=5d32c60e"></script>
+        <script src="../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+        <script src="../_static/documentation_options.js?v=187304be"></script>
+        <script src="../_static/doctools.js?v=9a2dae69"></script>
+        <script src="../_static/sphinx_highlight.js?v=dc90522c"></script>
+    <script src="../_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="../genindex/" />
+    <link rel="search" title="Search" href="../search/" />
+    <link rel="next" title="Deployment Backends" href="../backends/" />
+    <link rel="prev" title="rcds.yaml — Project Config" href="../project/" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+
+          
+          
+          <a href="../" class="icon icon-home">
+            rCDS
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../search/" method="get">
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <ul>
+<li class="toctree-l1"><a class="reference internal" href="../">Introduction</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Contents</span></p>
+<ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="../project/"><code class="docutils literal notranslate"><span class="pre">rcds.yaml</span></code> — Project Config</a></li>
+<li class="toctree-l1 current"><a class="current reference internal" href="#"><code class="docutils literal notranslate"><span class="pre">challenge.yaml</span></code> — Challenge Config</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#basics">Basics</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#deployment">Deployment</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#containers">Containers</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#expose">Expose</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="#templating">Templating</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#reference">Reference</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../backends/">Deployment Backends</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../config-samples/">Sample Configs</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../contributing/">Contributing to rCDS</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Backends</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../backends/rctf/"><code class="docutils literal notranslate"><span class="pre">rctf</span></code> — rCTF</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../backends/k8s/"><code class="docutils literal notranslate"><span class="pre">k8s</span></code> — Kubernetes</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">API Reference</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../api/project/"><code class="xref py py-mod docutils literal notranslate"><span class="pre">rcds.project</span></code> — Projects</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../api/challenge/"><code class="xref py py-mod docutils literal notranslate"><span class="pre">rcds.challenge</span></code> — Challenges</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../">rCDS</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="../" class="icon icon-home" aria-label="Home"></a></li>
+      <li class="breadcrumb-item active"><code class="docutils literal notranslate"><span class="pre">challenge.yaml</span></code> — Challenge Config</li>
+      <li class="wy-breadcrumbs-aside">
+            <a href="../_sources/challenge.rst.txt" rel="nofollow"> View page source</a>
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <section id="challenge-yaml-challenge-config">
+<h1><code class="docutils literal notranslate"><span class="pre">challenge.yaml</span></code> — Challenge Config<a class="headerlink" href="#challenge-yaml-challenge-config" title="Link to this heading"></a></h1>
+<p>The file <code class="docutils literal notranslate"><span class="pre">challenge.yaml</span></code> defines the configuration for a challenge within an
+rCDS project. <code class="docutils literal notranslate"><span class="pre">.yml</span></code> and <code class="docutils literal notranslate"><span class="pre">.json</span></code> files are also supported.</p>
+<section id="basics">
+<h2>Basics<a class="headerlink" href="#basics" title="Link to this heading"></a></h2>
+<p><code class="docutils literal notranslate"><span class="pre">id</span></code> — the identifier for this challenge. Must be unique project wide. This
+key is set automatically from the name of the directory the challenge is in;
+unless you have a very good reason to, don’t set this in <code class="docutils literal notranslate"><span class="pre">challenge.yaml</span></code>.</p>
+<p><code class="docutils literal notranslate"><span class="pre">author</span></code> – a string or list of strings containing the authors for this
+challenge.</p>
+<p><code class="docutils literal notranslate"><span class="pre">description</span></code> – self-explanatory. It is in Markdown format and will be
+processed with <a class="reference external" href="https://jinja.palletsprojects.com">Jinja</a>. See <a class="reference internal" href="#challenge-templating"><span class="std std-ref">Templating</span></a> for more details.</p>
+<p><code class="docutils literal notranslate"><span class="pre">category</span></code> – self-explanatory. If the challenge directory is exactly two
+directories deep (for example, <code class="docutils literal notranslate"><span class="pre">/pwn/chall</span></code>, where <code class="docutils literal notranslate"><span class="pre">/</span></code> is the project root),
+this is set from the parent directory of the challenge’s directory (“pwn” in the
+previous example). We recommend organizing your challenges in a
+<code class="samp docutils literal notranslate"><em><span class="pre">category</span></em><span class="pre">/</span><em><span class="pre">chall</span></em></code> structure.</p>
+<p><code class="docutils literal notranslate"><span class="pre">flag</span></code> — the flag for the challenge. If it is a string, then the flag is set
+to the string verbatim. Otherwise, if <code class="docutils literal notranslate"><span class="pre">flag.file</span></code> is set, the flag is loaded
+from the specified file (relative to the challenge root), and stripped of
+leading and trailing whitespace. If <code class="docutils literal notranslate"><span class="pre">flag.regex</span></code> is set, the flag is anything
+matching the given regex. A warning is emitted if the flag contains multiple
+lines (usually this is from an improperly configured flag file).</p>
+<p><code class="docutils literal notranslate"><span class="pre">provide</span></code> — an array of files to provide to competitors as downloads. The
+files can either be a string, in which case they are interpreted as the path to
+the file, or an object with the <code class="docutils literal notranslate"><span class="pre">file</span></code> and <code class="docutils literal notranslate"><span class="pre">as</span></code> properties; these properties
+define the path and the displayed name of the file, respectively.</p>
+<p><code class="docutils literal notranslate"><span class="pre">value</span></code> — point value of this challenge. Meaning is defined by the
+scoreboard backend.</p>
+<p><code class="docutils literal notranslate"><span class="pre">visible</span></code> — if set to <code class="docutils literal notranslate"><span class="pre">false</span></code>, the scoreboard backend will act as if this
+challenge does not exist.</p>
+<div class="admonition warning">
+<p class="admonition-title">Warning</p>
+<p>Most scoreboard backends will delete any challenges that were created by
+rCDS but now no longer exist—switching <code class="docutils literal notranslate"><span class="pre">visible</span></code> to <code class="docutils literal notranslate"><span class="pre">false</span></code> after the
+challenge has already been deployed may cause solves to be lost.</p>
+</div>
+</section>
+<section id="deployment">
+<h2>Deployment<a class="headerlink" href="#deployment" title="Link to this heading"></a></h2>
+<p>In rCDS, you first define all of the <a class="reference internal" href="#challenge-containers"><span class="std std-ref">containers</span></a>
+that your challenge needs to run, and then declare how you want them
+<a class="reference internal" href="#challenge-expose"><span class="std std-ref">exposed</span></a> to the world.</p>
+<p><code class="docutils literal notranslate"><span class="pre">deployed</span></code> — whether or not this challenge’s containers should be deployed.
+Defaults to <code class="docutils literal notranslate"><span class="pre">true</span></code>.</p>
+<section id="containers">
+<span id="challenge-containers"></span><h3>Containers<a class="headerlink" href="#containers" title="Link to this heading"></a></h3>
+<p>The <code class="docutils literal notranslate"><span class="pre">containers</span></code> key is an object whose keys are the names of the containers
+this challenge creates. These containers can either use an existing image, or
+specify a path to a Dockerfile to build from. Each container must declare all
+ports that need to be connected to, both from other containers and by
+competitors; which ports are exposed to competitors are specified
+<a class="reference internal" href="#challenge-expose"><span class="std std-ref">separately</span></a>. Containers from the same challenge can
+connect to each other via a DNS lookup of their names; for example, if a
+container <code class="docutils literal notranslate"><span class="pre">app</span></code> is defined, another container can connect to any of <code class="docutils literal notranslate"><span class="pre">app</span></code>’s
+declared ports by looking up the name <code class="docutils literal notranslate"><span class="pre">app</span></code>.</p>
+<p>Whether a container needs to be rebuilt is determined by looking at every file
+in the Docker build context. Thus, it is very important that you include only
+what is necessary in the build context by using a <code class="docutils literal notranslate"><span class="pre">.dockerignore</span></code> file; at
+minimum, <code class="docutils literal notranslate"><span class="pre">challenge.yaml</span></code> should be excluded to prevent needing to rebuild the
+container when the challenge’s description is updated.</p>
+<p><code class="docutils literal notranslate"><span class="pre">image</span></code> — the tag of an existing image to run</p>
+<p><code class="docutils literal notranslate"><span class="pre">build</span></code> — settings for building this container. If it is a string, then it
+is the path to the Docker build context (the directory where a Dockerfile is).
+It can also be an object for advanced configuration:</p>
+<p><code class="docutils literal notranslate"><span class="pre">build.context</span></code> — path to the Docker build context.</p>
+<p><code class="docutils literal notranslate"><span class="pre">build.dockerfile</span></code> — path to the Dockerfile, relative to the build context
+root.</p>
+<p><code class="docutils literal notranslate"><span class="pre">build.args</span></code> — Docker build args to set when building the container.
+Key-value object.</p>
+<p><code class="docutils literal notranslate"><span class="pre">ports</span></code> — a list of integers of the port numbers this container listens on.
+If anything needs to connect to a port on the container, list it here.</p>
+<p><code class="docutils literal notranslate"><span class="pre">replicas</span></code> — number of replicas of this container to run (on backends that
+support it). Defaults to 1. Leave at 1 for stateful containers.</p>
+<p><code class="docutils literal notranslate"><span class="pre">environment</span></code> — key-value object of environment variables to set.</p>
+<p><code class="docutils literal notranslate"><span class="pre">resources</span></code> — resource limits on the container. See <a class="reference external" href="https://kubernetes.io/docs/concepts/configuration/manage-resources-containers/">Kubernetes’s
+documentation</a> on the format of this value (only <code class="docutils literal notranslate"><span class="pre">cpu</span></code> and <code class="docutils literal notranslate"><span class="pre">memory</span></code> are
+implemented).</p>
+</section>
+<section id="expose">
+<span id="challenge-expose"></span><h3>Expose<a class="headerlink" href="#expose" title="Link to this heading"></a></h3>
+<p>The top-level <code class="docutils literal notranslate"><span class="pre">expose</span></code> key defines all of the ports on <a class="reference internal" href="#challenge-containers"><span class="std std-ref">containers</span></a> that should be exposed to competitors. It is an object
+whose keys correspond to the names of defined containers, and whose values are
+arrays of port objects. These objects each describe how one port should be
+exposed.</p>
+<p><code class="docutils literal notranslate"><span class="pre">target</span></code> — the port on the container that this rule is targeting.</p>
+<p><code class="docutils literal notranslate"><span class="pre">tcp</span></code> — if specified, this port should be treated as TCP. The value is the
+port at which it is exposed on, on the challenge host.</p>
+<p><code class="docutils literal notranslate"><span class="pre">http</span></code> — if specified, this port should be treated as HTTP, and will be
+reverse proxied with TLS termination. The value is a string, the subdomain name
+on which the challenge will be hosted. Alternatively, it can be an object with a
+<code class="docutils literal notranslate"><span class="pre">raw</span></code> key, in which case <code class="docutils literal notranslate"><span class="pre">http.raw</span></code> contains the FQDN that the challenge
+will be served on. When using <code class="docutils literal notranslate"><span class="pre">http.raw</span></code>, rCDS will handle the virtual
+hosting, however as a challenge author, you will need to coordinate with your
+infrastructure admin on setting up TLS and DNS records.</p>
+</section>
+</section>
+<section id="templating">
+<span id="challenge-templating"></span><h2>Templating<a class="headerlink" href="#templating" title="Link to this heading"></a></h2>
+<p>Challenge descriptions are rendered using <a class="reference external" href="https://jinja.palletsprojects.com">Jinja</a>. The contents of the
+challenge’s config is available on the <code class="docutils literal notranslate"><span class="pre">challenge</span></code> object in the Jinja
+environment. Some fields are altered with more concrete versions of their
+contents—for example, the <code class="docutils literal notranslate"><span class="pre">http</span></code> key on <code class="docutils literal notranslate"><span class="pre">expose</span></code> port objects will contain
+the fully-qualified domain name, instead of just the prefix. Container backends
+will also add a <code class="docutils literal notranslate"><span class="pre">host</span></code> key to a TCP <code class="docutils literal notranslate"><span class="pre">expose</span></code> port, which contains the host at
+which that port will be accessible.</p>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>An example configuration:</p>
+<div class="highlight-yaml notranslate"><div class="highlight"><pre><span></span><span class="c1"># challenge.yaml</span>
+<span class="nn">...</span>
+<span class="nt">description</span><span class="p">:</span><span class="w"> </span><span class="p p-Indicator">|</span>
+<span class="w">  </span><span class="no">1: {{ challenge.expose.main[0].http }}</span>
+
+<span class="w">  </span><span class="no">2: {{ challenge.expose.main[1].host }}:{{ challenge.expose.main[1].tcp }}</span>
+<span class="nt">containers</span><span class="p">:</span>
+<span class="w">  </span><span class="nt">main</span><span class="p">:</span>
+<span class="w">    </span><span class="nt">ports</span><span class="p">:</span><span class="w"> </span><span class="p p-Indicator">[</span><span class="nv">1337</span><span class="p p-Indicator">,</span><span class="w"> </span><span class="nv">1338</span><span class="p p-Indicator">]</span>
+<span class="nt">expose</span><span class="p">:</span>
+<span class="w">  </span><span class="nt">main</span><span class="p">:</span>
+<span class="w">  </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">target</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">1337</span>
+<span class="w">    </span><span class="nt">http</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">leet</span>
+<span class="w">  </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">target</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">1338</span>
+<span class="w">    </span><span class="nt">tcp</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">31253</span>
+</pre></div>
+</div>
+<p>Assuming the container backend is hosted on example.com, the description
+would render as:</p>
+<p>1: leet.example.com</p>
+<p>2: example.com:31253</p>
+</div>
+<p>There are also shortcuts available for the most common use-case: a single
+exposed port. <code class="docutils literal notranslate"><span class="pre">host</span></code> is the hostname under which the port is accessible.
+<code class="docutils literal notranslate"><span class="pre">link</span></code> will automatically create a Markdown link to the exposed port, and
+<code class="docutils literal notranslate"><span class="pre">url</span></code> will create just the URL without the accompanying Markdown.  This works
+for both HTTP and TCP ports, since you may want to expose a challenge which
+breaks behind a reverse proxy as TCP. For TCP ports, there is also <code class="docutils literal notranslate"><span class="pre">port</span></code>,
+which is the exposed port number of the port, and <code class="docutils literal notranslate"><span class="pre">nc</span></code>, which
+will create a <code class="docutils literal notranslate"><span class="pre">nc</span></code> command to connect to the challenge—it is equivalent to
+<code class="docutils literal notranslate"><span class="pre">nc</span> <span class="pre">{{</span> <span class="pre">host</span> <span class="pre">}}</span> <span class="pre">{{</span> <span class="pre">port</span> <span class="pre">}}</span></code>.</p>
+</section>
+<section id="reference">
+<h2>Reference<a class="headerlink" href="#reference" title="Link to this heading"></a></h2>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>.. jsonschema:: ../rcds/challenge/challenge.schema.yaml
+
+   Raw schema:
+
+.. literalinclude:: ../rcds/challenge/challenge.schema.yaml
+   :language: yaml
+</pre></div>
+</div>
+</section>
+</section>
+
+
+           </div>
+          </div>
+          <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
+        <a href="../project/" class="btn btn-neutral float-left" title="rcds.yaml — Project Config" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+        <a href="../backends/" class="btn btn-neutral float-right" title="Deployment Backends" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2020, redpwn.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

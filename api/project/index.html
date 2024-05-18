@@ -1,0 +1,427 @@
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" data-content_root="../../">
+<head>
+  <meta charset="utf-8" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>rcds.project — Projects &mdash; rCDS  documentation</title>
+      <link rel="stylesheet" type="text/css" href="../../_static/pygments.css?v=80d5e7a1" />
+      <link rel="stylesheet" type="text/css" href="../../_static/css/theme.css?v=19f00094" />
+
+  
+  <!--[if lt IE 9]>
+    <script src="../../_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  
+        <script src="../../_static/jquery.js?v=5d32c60e"></script>
+        <script src="../../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+        <script src="../../_static/documentation_options.js?v=187304be"></script>
+        <script src="../../_static/doctools.js?v=9a2dae69"></script>
+        <script src="../../_static/sphinx_highlight.js?v=dc90522c"></script>
+    <script src="../../_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="../../genindex/" />
+    <link rel="search" title="Search" href="../../search/" />
+    <link rel="next" title="rcds.challenge — Challenges" href="../challenge/" />
+    <link rel="prev" title="k8s — Kubernetes" href="../../backends/k8s/" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+
+          
+          
+          <a href="../../" class="icon icon-home">
+            rCDS
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../../search/" method="get">
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <ul>
+<li class="toctree-l1"><a class="reference internal" href="../../">Introduction</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Contents</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../project/"><code class="docutils literal notranslate"><span class="pre">rcds.yaml</span></code> — Project Config</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../challenge/"><code class="docutils literal notranslate"><span class="pre">challenge.yaml</span></code> — Challenge Config</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../backends/">Deployment Backends</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../config-samples/">Sample Configs</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../contributing/">Contributing to rCDS</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Backends</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../backends/rctf/"><code class="docutils literal notranslate"><span class="pre">rctf</span></code> — rCTF</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../backends/k8s/"><code class="docutils literal notranslate"><span class="pre">k8s</span></code> — Kubernetes</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">API Reference</span></p>
+<ul class="current">
+<li class="toctree-l1 current"><a class="current reference internal" href="#"><code class="xref py py-mod docutils literal notranslate"><span class="pre">rcds.project</span></code> — Projects</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#rcds.Project"><code class="docutils literal notranslate"><span class="pre">Project</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="#module-rcds.project.config"><code class="xref py py-mod docutils literal notranslate"><span class="pre">rcds.project.config</span></code> - Config loading</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#rcds.project.config.check_config"><code class="docutils literal notranslate"><span class="pre">check_config()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#rcds.project.config.load_config"><code class="docutils literal notranslate"><span class="pre">load_config()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#rcds.project.config.parse_config"><code class="docutils literal notranslate"><span class="pre">parse_config()</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="#module-rcds.project.assets"><code class="xref py py-mod docutils literal notranslate"><span class="pre">rcds.project.assets</span></code> - Asset management</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#rcds.project.assets.AssetManager"><code class="docutils literal notranslate"><span class="pre">AssetManager</span></code></a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#rcds.project.assets.AssetManager.create_context"><code class="docutils literal notranslate"><span class="pre">AssetManager.create_context()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#rcds.project.assets.AssetManager.list_context_names"><code class="docutils literal notranslate"><span class="pre">AssetManager.list_context_names()</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="#rcds.project.assets.AssetManagerContext"><code class="docutils literal notranslate"><span class="pre">AssetManagerContext</span></code></a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#rcds.project.assets.AssetManagerContext.clear"><code class="docutils literal notranslate"><span class="pre">AssetManagerContext.clear()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#rcds.project.assets.AssetManagerContext.exists"><code class="docutils literal notranslate"><span class="pre">AssetManagerContext.exists()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#rcds.project.assets.AssetManagerContext.get"><code class="docutils literal notranslate"><span class="pre">AssetManagerContext.get()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#rcds.project.assets.AssetManagerContext.get_mtime"><code class="docutils literal notranslate"><span class="pre">AssetManagerContext.get_mtime()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#rcds.project.assets.AssetManagerContext.ls"><code class="docutils literal notranslate"><span class="pre">AssetManagerContext.ls()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#rcds.project.assets.AssetManagerContext.sync"><code class="docutils literal notranslate"><span class="pre">AssetManagerContext.sync()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#rcds.project.assets.AssetManagerContext.transaction"><code class="docutils literal notranslate"><span class="pre">AssetManagerContext.transaction()</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="#rcds.project.assets.AssetManagerTransaction"><code class="docutils literal notranslate"><span class="pre">AssetManagerTransaction</span></code></a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#rcds.project.assets.AssetManagerTransaction.add"><code class="docutils literal notranslate"><span class="pre">AssetManagerTransaction.add()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#rcds.project.assets.AssetManagerTransaction.add_file"><code class="docutils literal notranslate"><span class="pre">AssetManagerTransaction.add_file()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#rcds.project.assets.AssetManagerTransaction.commit"><code class="docutils literal notranslate"><span class="pre">AssetManagerTransaction.commit()</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="#rcds.project.assets.File"><code class="docutils literal notranslate"><span class="pre">File</span></code></a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../challenge/"><code class="xref py py-mod docutils literal notranslate"><span class="pre">rcds.challenge</span></code> — Challenges</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../../">rCDS</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="../../" class="icon icon-home" aria-label="Home"></a></li>
+      <li class="breadcrumb-item active"><code class="xref py py-mod docutils literal notranslate"><span class="pre">rcds.project</span></code> — Projects</li>
+      <li class="wy-breadcrumbs-aside">
+            <a href="../../_sources/api/project.rst.txt" rel="nofollow"> View page source</a>
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <section id="module-rcds.project">
+<span id="rcds-project-projects"></span><h1><a class="reference internal" href="#module-rcds.project" title="rcds.project"><code class="xref py py-mod docutils literal notranslate"><span class="pre">rcds.project</span></code></a> — Projects<a class="headerlink" href="#module-rcds.project" title="Link to this heading"></a></h1>
+<dl class="py class">
+<dt class="sig sig-object py" id="rcds.Project">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">rcds.</span></span><span class="sig-name descname"><span class="pre">Project</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">root</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3/library/pathlib.html#pathlib.Path" title="(in Python v3.12)"><span class="pre">Path</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">docker_client</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docker-py.readthedocs.io/en/stable/client.html#docker.client.DockerClient" title="(in Docker SDK for Python v7.0)"><span class="pre">DockerClient</span></a><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3/library/constants.html#None" title="(in Python v3.12)"><span class="pre">None</span></a></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/rcds/project/project/#Project"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#rcds.Project" title="Link to this definition"></a></dt>
+<dd><p>An rCDS project; the context that all actions are done within</p>
+</dd></dl>
+
+<section id="module-rcds.project.config">
+<span id="rcds-project-config-config-loading"></span><h2><a class="reference internal" href="#module-rcds.project.config" title="rcds.project.config"><code class="xref py py-mod docutils literal notranslate"><span class="pre">rcds.project.config</span></code></a> - Config loading<a class="headerlink" href="#module-rcds.project.config" title="Link to this heading"></a></h2>
+<p>Functions for loading project config files</p>
+<dl class="py function">
+<dt class="sig sig-object py" id="rcds.project.config.check_config">
+<span class="sig-prename descclassname"><span class="pre">rcds.project.config.</span></span><span class="sig-name descname"><span class="pre">check_config</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">config_file</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3/library/pathlib.html#pathlib.Path" title="(in Python v3.12)"><span class="pre">Path</span></a></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.Tuple" title="(in Python v3.12)"><span class="pre">Tuple</span></a><span class="p"><span class="pre">[</span></span><a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.Dict" title="(in Python v3.12)"><span class="pre">Dict</span></a><span class="p"><span class="pre">[</span></span><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.12)"><span class="pre">str</span></a><span class="p"><span class="pre">,</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.Any" title="(in Python v3.12)"><span class="pre">Any</span></a><span class="p"><span class="pre">]</span></span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3/library/constants.html#None" title="(in Python v3.12)"><span class="pre">None</span></a><span class="p"><span class="pre">,</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.Iterable" title="(in Python v3.12)"><span class="pre">Iterable</span></a><span class="p"><span class="pre">[</span></span><span class="pre">ValidationError</span><span class="p"><span class="pre">]</span></span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3/library/constants.html#None" title="(in Python v3.12)"><span class="pre">None</span></a><span class="p"><span class="pre">]</span></span></span></span><a class="reference internal" href="../../_modules/rcds/project/config/#check_config"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#rcds.project.config.check_config" title="Link to this definition"></a></dt>
+<dd><p>Load and validate a config file, returning any errors encountered.</p>
+<p>If the config file is valid, the tuple returned contains the loaded config as
+the first element, and the second element is None. Otherwise, the second
+element is an iterable of errors that occurred during validation</p>
+<p>This method wraps <a class="reference internal" href="#rcds.project.config.parse_config" title="rcds.project.config.parse_config"><code class="xref py py-func docutils literal notranslate"><span class="pre">parse_config()</span></code></a>.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>config_file</strong> (<a class="reference external" href="https://docs.python.org/3/library/pathlib.html#pathlib.Path" title="(in Python v3.12)"><em>pathlib.Path</em></a>) – The challenge config to load</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="rcds.project.config.load_config">
+<span class="sig-prename descclassname"><span class="pre">rcds.project.config.</span></span><span class="sig-name descname"><span class="pre">load_config</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">config_file</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3/library/pathlib.html#pathlib.Path" title="(in Python v3.12)"><span class="pre">Path</span></a></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.Dict" title="(in Python v3.12)"><span class="pre">Dict</span></a><span class="p"><span class="pre">[</span></span><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.12)"><span class="pre">str</span></a><span class="p"><span class="pre">,</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.Any" title="(in Python v3.12)"><span class="pre">Any</span></a><span class="p"><span class="pre">]</span></span></span></span><a class="reference internal" href="../../_modules/rcds/project/config/#load_config"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#rcds.project.config.load_config" title="Link to this definition"></a></dt>
+<dd><p>Loads a config file, or throw an exception if it is not valid</p>
+<p>This method wraps <a class="reference internal" href="#rcds.project.config.check_config" title="rcds.project.config.check_config"><code class="xref py py-func docutils literal notranslate"><span class="pre">check_config()</span></code></a>, and throws the first error returned
+if there are any errors.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>config_file</strong> (<a class="reference external" href="https://docs.python.org/3/library/pathlib.html#pathlib.Path" title="(in Python v3.12)"><em>pathlib.Path</em></a>) – The challenge config to load</p>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>The loaded config</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="rcds.project.config.parse_config">
+<span class="sig-prename descclassname"><span class="pre">rcds.project.config.</span></span><span class="sig-name descname"><span class="pre">parse_config</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">config_file</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3/library/pathlib.html#pathlib.Path" title="(in Python v3.12)"><span class="pre">Path</span></a></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.Iterable" title="(in Python v3.12)"><span class="pre">Iterable</span></a><span class="p"><span class="pre">[</span></span><span class="pre">ValidationError</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.Dict" title="(in Python v3.12)"><span class="pre">Dict</span></a><span class="p"><span class="pre">[</span></span><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.12)"><span class="pre">str</span></a><span class="p"><span class="pre">,</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.Any" title="(in Python v3.12)"><span class="pre">Any</span></a><span class="p"><span class="pre">]</span></span><span class="p"><span class="pre">]</span></span></span></span><a class="reference internal" href="../../_modules/rcds/project/config/#parse_config"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#rcds.project.config.parse_config" title="Link to this definition"></a></dt>
+<dd><p>Load and validate a config file, returning both the config and any
+errors encountered.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>config_file</strong> (<a class="reference external" href="https://docs.python.org/3/library/pathlib.html#pathlib.Path" title="(in Python v3.12)"><em>pathlib.Path</em></a>) – The challenge config to load</p>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>Iterable containing any errors (all instances of
+<code class="xref py py-class docutils literal notranslate"><span class="pre">rcds.errors.ValidationError</span></code>) and the parsed config. The config will
+always be last.</p>
+</dd>
+</dl>
+</dd></dl>
+
+</section>
+<section id="module-rcds.project.assets">
+<span id="rcds-project-assets-asset-management"></span><h2><a class="reference internal" href="#module-rcds.project.assets" title="rcds.project.assets"><code class="xref py py-mod docutils literal notranslate"><span class="pre">rcds.project.assets</span></code></a> - Asset management<a class="headerlink" href="#module-rcds.project.assets" title="Link to this heading"></a></h2>
+<dl class="py class">
+<dt class="sig sig-object py" id="rcds.project.assets.AssetManager">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">rcds.project.assets.</span></span><span class="sig-name descname"><span class="pre">AssetManager</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">project</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="#rcds.Project" title="rcds.Project"><span class="pre">rcds.Project</span></a></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/rcds/project/assets/#AssetManager"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#rcds.project.assets.AssetManager" title="Link to this definition"></a></dt>
+<dd><p>Class for managing assets from challenges that are provided to competitors</p>
+<p>This class manages all assets under a given project.</p>
+<dl class="py method">
+<dt class="sig sig-object py" id="rcds.project.assets.AssetManager.create_context">
+<span class="sig-name descname"><span class="pre">create_context</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">name</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.12)"><span class="pre">str</span></a></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference internal" href="#rcds.project.assets.AssetManagerContext" title="rcds.project.assets.AssetManagerContext"><span class="pre">AssetManagerContext</span></a></span></span><a class="reference internal" href="../../_modules/rcds/project/assets/#AssetManager.create_context"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#rcds.project.assets.AssetManager.create_context" title="Link to this definition"></a></dt>
+<dd><p>Create a subcontext within the <a class="reference internal" href="#rcds.project.assets.AssetManager" title="rcds.project.assets.AssetManager"><code class="xref py py-class docutils literal notranslate"><span class="pre">AssetManager</span></code></a></p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>name</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.12)"><em>str</em></a>) – The name of the context (challenge id)</p>
+</dd>
+<dt class="field-even">Raises<span class="colon">:</span></dt>
+<dd class="field-even"><p><a class="reference external" href="https://docs.python.org/3/library/exceptions.html#ValueError" title="(in Python v3.12)"><strong>ValueError</strong></a> – if the context name is not valid</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="rcds.project.assets.AssetManager.list_context_names">
+<span class="sig-name descname"><span class="pre">list_context_names</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.Iterable" title="(in Python v3.12)"><span class="pre">Iterable</span></a><span class="p"><span class="pre">[</span></span><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.12)"><span class="pre">str</span></a><span class="p"><span class="pre">]</span></span></span></span><a class="reference internal" href="../../_modules/rcds/project/assets/#AssetManager.list_context_names"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#rcds.project.assets.AssetManager.list_context_names" title="Link to this definition"></a></dt>
+<dd><p>List the names of all subcontexts within this <a class="reference internal" href="#rcds.project.assets.AssetManager" title="rcds.project.assets.AssetManager"><code class="xref py py-class docutils literal notranslate"><span class="pre">AssetManager</span></code></a></p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns<span class="colon">:</span></dt>
+<dd class="field-odd"><p>The contexts’ names. Call <a class="reference internal" href="#rcds.project.assets.AssetManager.create_context" title="rcds.project.assets.AssetManager.create_context"><code class="xref py py-meth docutils literal notranslate"><span class="pre">create_context()</span></code></a> on a name to obtain a
+<a class="reference internal" href="#rcds.project.assets.AssetManagerContext" title="rcds.project.assets.AssetManagerContext"><code class="xref py py-class docutils literal notranslate"><span class="pre">AssetManagerContext</span></code></a> object</p>
+</dd>
+</dl>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="rcds.project.assets.AssetManagerContext">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">rcds.project.assets.</span></span><span class="sig-name descname"><span class="pre">AssetManagerContext</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">asset_manager</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="#rcds.project.assets.AssetManager" title="rcds.project.assets.AssetManager"><span class="pre">AssetManager</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">name</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.12)"><span class="pre">str</span></a></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/rcds/project/assets/#AssetManagerContext"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#rcds.project.assets.AssetManagerContext" title="Link to this definition"></a></dt>
+<dd><p>A subcontext within an <a class="reference internal" href="#rcds.project.assets.AssetManager" title="rcds.project.assets.AssetManager"><code class="xref py py-class docutils literal notranslate"><span class="pre">AssetManager</span></code></a></p>
+<p>Represents a namespace within the <a class="reference internal" href="#rcds.project.assets.AssetManager" title="rcds.project.assets.AssetManager"><code class="xref py py-class docutils literal notranslate"><span class="pre">AssetManager</span></code></a>, essentially a
+subdirectory. The context holds assets for a challenge with the same id</p>
+<p>This class is not meant to be constructed directly, use
+<a class="reference internal" href="#rcds.project.assets.AssetManager.create_context" title="rcds.project.assets.AssetManager.create_context"><code class="xref py py-meth docutils literal notranslate"><span class="pre">AssetManager.create_context()</span></code></a></p>
+<dl class="py method">
+<dt class="sig sig-object py" id="rcds.project.assets.AssetManagerContext.clear">
+<span class="sig-name descname"><span class="pre">clear</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference external" href="https://docs.python.org/3/library/constants.html#None" title="(in Python v3.12)"><span class="pre">None</span></a></span></span><a class="reference internal" href="../../_modules/rcds/project/assets/#AssetManagerContext.clear"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#rcds.project.assets.AssetManagerContext.clear" title="Link to this definition"></a></dt>
+<dd><p>Clear all files in this context</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="rcds.project.assets.AssetManagerContext.exists">
+<span class="sig-name descname"><span class="pre">exists</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">name</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.12)"><span class="pre">str</span></a></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.12)"><span class="pre">bool</span></a></span></span><a class="reference internal" href="../../_modules/rcds/project/assets/#AssetManagerContext.exists"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#rcds.project.assets.AssetManagerContext.exists" title="Link to this definition"></a></dt>
+<dd><p>Queries if an asset exists</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>name</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.12)"><em>str</em></a>) – The name of the asset</p>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>Whether or not it exists</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="rcds.project.assets.AssetManagerContext.get">
+<span class="sig-name descname"><span class="pre">get</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">name</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.12)"><span class="pre">str</span></a></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference external" href="https://docs.python.org/3/library/pathlib.html#pathlib.Path" title="(in Python v3.12)"><span class="pre">Path</span></a></span></span><a class="reference internal" href="../../_modules/rcds/project/assets/#AssetManagerContext.get"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#rcds.project.assets.AssetManagerContext.get" title="Link to this definition"></a></dt>
+<dd><p>Retrieves the asset</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>name</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.12)"><em>str</em></a>) – The name of the asset</p>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>The asset</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="rcds.project.assets.AssetManagerContext.get_mtime">
+<span class="sig-name descname"><span class="pre">get_mtime</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">name</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.12)"><span class="pre">str</span></a></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference external" href="https://docs.python.org/3/library/functions.html#float" title="(in Python v3.12)"><span class="pre">float</span></a></span></span><a class="reference internal" href="../../_modules/rcds/project/assets/#AssetManagerContext.get_mtime"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#rcds.project.assets.AssetManagerContext.get_mtime" title="Link to this definition"></a></dt>
+<dd><p>Retrieves the time an asset was modified</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>name</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.12)"><em>str</em></a>) – The name of the asset</p>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>The time the asset was modified (:attr`os.stat_result.st_mtime`)</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="rcds.project.assets.AssetManagerContext.ls">
+<span class="sig-name descname"><span class="pre">ls</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.Iterable" title="(in Python v3.12)"><span class="pre">Iterable</span></a><span class="p"><span class="pre">[</span></span><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.12)"><span class="pre">str</span></a><span class="p"><span class="pre">]</span></span></span></span><a class="reference internal" href="../../_modules/rcds/project/assets/#AssetManagerContext.ls"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#rcds.project.assets.AssetManagerContext.ls" title="Link to this definition"></a></dt>
+<dd><p>List all files within this context</p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns<span class="colon">:</span></dt>
+<dd class="field-odd"><p>The list of asset names</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="rcds.project.assets.AssetManagerContext.sync">
+<span class="sig-name descname"><span class="pre">sync</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">*</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">check</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.12)"><span class="pre">bool</span></a></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">True</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/rcds/project/assets/#AssetManagerContext.sync"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#rcds.project.assets.AssetManagerContext.sync" title="Link to this definition"></a></dt>
+<dd><p>Syncs the manifest for this context to disk</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>check</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.12)"><em>bool</em></a>) – If true (default), check to make sure all files in the
+manifest exist, and that there are no extra files</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="rcds.project.assets.AssetManagerContext.transaction">
+<span class="sig-name descname"><span class="pre">transaction</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference internal" href="#rcds.project.assets.AssetManagerTransaction" title="rcds.project.assets.AssetManagerTransaction"><span class="pre">AssetManagerTransaction</span></a></span></span><a class="reference internal" href="../../_modules/rcds/project/assets/#AssetManagerContext.transaction"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#rcds.project.assets.AssetManagerContext.transaction" title="Link to this definition"></a></dt>
+<dd><p>Create a <a class="reference internal" href="#rcds.project.assets.AssetManagerTransaction" title="rcds.project.assets.AssetManagerTransaction"><code class="xref py py-class docutils literal notranslate"><span class="pre">AssetManagerTransaction</span></code></a>.</p>
+<p>Only one transaction can be created at a time.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns<span class="colon">:</span></dt>
+<dd class="field-odd"><p>The transaction</p>
+</dd>
+<dt class="field-even">Raises<span class="colon">:</span></dt>
+<dd class="field-even"><p><a class="reference external" href="https://docs.python.org/3/library/exceptions.html#RuntimeError" title="(in Python v3.12)"><strong>RuntimeError</strong></a> – when attempting to create a transaction while one already
+exists</p>
+</dd>
+</dl>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="rcds.project.assets.AssetManagerTransaction">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">rcds.project.assets.</span></span><span class="sig-name descname"><span class="pre">AssetManagerTransaction</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">asset_manager_context</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="#rcds.project.assets.AssetManagerContext" title="rcds.project.assets.AssetManagerContext"><span class="pre">AssetManagerContext</span></a></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/rcds/project/assets/#AssetManagerTransaction"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#rcds.project.assets.AssetManagerTransaction" title="Link to this definition"></a></dt>
+<dd><p>A transaction within an <a class="reference internal" href="#rcds.project.assets.AssetManagerContext" title="rcds.project.assets.AssetManagerContext"><code class="xref py py-class docutils literal notranslate"><span class="pre">AssetManagerContext</span></code></a></p>
+<p>This class manages declarative transactional updates to a context, allowing you to
+declare the files that should exist in the context, the last time that file was
+modified, and a callable to run to get the file, should it be out-of-date in the
+cache. The transaction starts in a blank state; without adding anything by calling
+<a class="reference internal" href="#rcds.project.assets.AssetManagerTransaction.add" title="rcds.project.assets.AssetManagerTransaction.add"><code class="xref py py-meth docutils literal notranslate"><span class="pre">add()</span></code></a>, <a class="reference internal" href="#rcds.project.assets.AssetManagerTransaction.commit" title="rcds.project.assets.AssetManagerTransaction.commit"><code class="xref py py-meth docutils literal notranslate"><span class="pre">commit()</span></code></a> will clear the context. No actions are performed until
+<a class="reference internal" href="#rcds.project.assets.AssetManagerTransaction.commit" title="rcds.project.assets.AssetManagerTransaction.commit"><code class="xref py py-meth docutils literal notranslate"><span class="pre">commit()</span></code></a> is called.</p>
+<p>This classs is not meant to be constructed directly, use
+<a class="reference internal" href="#rcds.project.assets.AssetManagerContext.transaction" title="rcds.project.assets.AssetManagerContext.transaction"><code class="xref py py-meth docutils literal notranslate"><span class="pre">AssetManagerContext.transaction()</span></code></a></p>
+<dl class="py method">
+<dt class="sig sig-object py" id="rcds.project.assets.AssetManagerTransaction.add">
+<span class="sig-name descname"><span class="pre">add</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">name</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.12)"><span class="pre">str</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">mtime</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3/library/functions.html#float" title="(in Python v3.12)"><span class="pre">float</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">contents</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.BinaryIO" title="(in Python v3.12)"><span class="pre">BinaryIO</span></a><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3/library/pathlib.html#pathlib.Path" title="(in Python v3.12)"><span class="pre">Path</span></a><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#bytes" title="(in Python v3.12)"><span class="pre">bytes</span></a><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.Callable" title="(in Python v3.12)"><span class="pre">Callable</span></a><span class="p"><span class="pre">[</span></span><span class="p"><span class="pre">[</span></span><span class="p"><span class="pre">]</span></span><span class="p"><span class="pre">,</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.BinaryIO" title="(in Python v3.12)"><span class="pre">BinaryIO</span></a><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3/library/pathlib.html#pathlib.Path" title="(in Python v3.12)"><span class="pre">Path</span></a><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#bytes" title="(in Python v3.12)"><span class="pre">bytes</span></a><span class="p"><span class="pre">]</span></span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference external" href="https://docs.python.org/3/library/constants.html#None" title="(in Python v3.12)"><span class="pre">None</span></a></span></span><a class="reference internal" href="../../_modules/rcds/project/assets/#AssetManagerTransaction.add"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#rcds.project.assets.AssetManagerTransaction.add" title="Link to this definition"></a></dt>
+<dd><p>Add a file to the context</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>name</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.12)"><em>str</em></a>) – The name of the asset to add</p></li>
+<li><p><strong>mtime</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#float" title="(in Python v3.12)"><em>float</em></a>) – The time the asset to add was modified
+(<a class="reference external" href="https://docs.python.org/3/library/os.html#os.stat_result.st_mtime" title="(in Python v3.12)"><code class="xref py py-attr docutils literal notranslate"><span class="pre">os.stat_result.st_mtime</span></code></a>)</p></li>
+<li><p><strong>contents</strong> (<a class="reference internal" href="#rcds.project.assets.File" title="rcds.project.assets.File"><code class="xref py py-const docutils literal notranslate"><span class="pre">File</span></code></a> or <code class="xref py py-obj docutils literal notranslate"><span class="pre">Callable[[],</span> <span class="pre">File]</span></code>) – The contents of the file - this can either be the contents
+directly as a <a class="reference internal" href="#rcds.project.assets.File" title="rcds.project.assets.File"><code class="xref py py-const docutils literal notranslate"><span class="pre">File</span></code></a>, or a thunk function that, when calls, returns
+the contents</p></li>
+</ul>
+</dd>
+<dt class="field-even">Raises<span class="colon">:</span></dt>
+<dd class="field-even"><ul class="simple">
+<li><p><a class="reference external" href="https://docs.python.org/3/library/exceptions.html#RuntimeError" title="(in Python v3.12)"><strong>RuntimeError</strong></a> – if the transaction has already been committed</p></li>
+<li><p><a class="reference external" href="https://docs.python.org/3/library/exceptions.html#ValueError" title="(in Python v3.12)"><strong>ValueError</strong></a> – if the asset name is not valid</p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="rcds.project.assets.AssetManagerTransaction.add_file">
+<span class="sig-name descname"><span class="pre">add_file</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">name</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.12)"><span class="pre">str</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">file</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3/library/pathlib.html#pathlib.Path" title="(in Python v3.12)"><span class="pre">Path</span></a></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/rcds/project/assets/#AssetManagerTransaction.add_file"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#rcds.project.assets.AssetManagerTransaction.add_file" title="Link to this definition"></a></dt>
+<dd><p>Add an already-existing file on disk to the context</p>
+<p>This wraps <a class="reference internal" href="#rcds.project.assets.AssetManagerTransaction.add" title="rcds.project.assets.AssetManagerTransaction.add"><code class="xref py py-meth docutils literal notranslate"><span class="pre">add()</span></code></a></p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>name</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.12)"><em>str</em></a>) – The name of the asset to add</p></li>
+<li><p><strong>file</strong> (<em>Path</em>) – The path to the asset on disk</p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="rcds.project.assets.AssetManagerTransaction.commit">
+<span class="sig-name descname"><span class="pre">commit</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference external" href="https://docs.python.org/3/library/constants.html#None" title="(in Python v3.12)"><span class="pre">None</span></a></span></span><a class="reference internal" href="../../_modules/rcds/project/assets/#AssetManagerTransaction.commit"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#rcds.project.assets.AssetManagerTransaction.commit" title="Link to this definition"></a></dt>
+<dd><p>Commit the transaction.</p>
+<p>This transaction can no longer be used after <a class="reference internal" href="#rcds.project.assets.AssetManagerTransaction.commit" title="rcds.project.assets.AssetManagerTransaction.commit"><code class="xref py py-meth docutils literal notranslate"><span class="pre">commit()</span></code></a> is called.</p>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="py data">
+<dt class="sig sig-object py" id="rcds.project.assets.File">
+<span class="sig-prename descclassname"><span class="pre">rcds.project.assets.</span></span><span class="sig-name descname"><span class="pre">File</span></span><a class="headerlink" href="#rcds.project.assets.File" title="Link to this definition"></a></dt>
+<dd><p>Something that the asset manager can interpret as a file (contents only)</p>
+<p>Valid types:</p>
+<ul class="simple">
+<li><p>A <a class="reference external" href="https://docs.python.org/3/library/pathlib.html#pathlib.Path" title="(in Python v3.12)"><code class="xref py py-class docutils literal notranslate"><span class="pre">pathlib.Path</span></code></a> object referring to a file that already exists on-disk</p></li>
+<li><p>Any <a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.BinaryIO" title="(in Python v3.12)"><code class="xref py py-class docutils literal notranslate"><span class="pre">typing.BinaryIO</span></code></a> object that is seekable</p></li>
+<li><p>A <a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.ByteString" title="(in Python v3.12)"><code class="xref py py-class docutils literal notranslate"><span class="pre">typing.ByteString</span></code></a> object containing the contents of the file (internally
+this is converted to a <a class="reference external" href="https://docs.python.org/3/library/io.html#io.BytesIO" title="(in Python v3.12)"><code class="xref py py-class docutils literal notranslate"><span class="pre">io.BytesIO</span></code></a>)</p></li>
+</ul>
+<p>alias of <a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.BinaryIO" title="(in Python v3.12)"><code class="xref py py-class docutils literal notranslate"><span class="pre">BinaryIO</span></code></a> | <a class="reference external" href="https://docs.python.org/3/library/pathlib.html#pathlib.Path" title="(in Python v3.12)"><code class="xref py py-class docutils literal notranslate"><span class="pre">Path</span></code></a> | <a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#bytes" title="(in Python v3.12)"><code class="xref py py-class docutils literal notranslate"><span class="pre">bytes</span></code></a></p>
+</dd></dl>
+
+</section>
+</section>
+
+
+           </div>
+          </div>
+          <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
+        <a href="../../backends/k8s/" class="btn btn-neutral float-left" title="k8s — Kubernetes" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+        <a href="../challenge/" class="btn btn-neutral float-right" title="rcds.challenge — Challenges" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2020, redpwn.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

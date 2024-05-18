@@ -1,0 +1,436 @@
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" data-content_root="../../">
+<head>
+  <meta charset="utf-8" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>rcds.challenge — Challenges &mdash; rCDS  documentation</title>
+      <link rel="stylesheet" type="text/css" href="../../_static/pygments.css?v=80d5e7a1" />
+      <link rel="stylesheet" type="text/css" href="../../_static/css/theme.css?v=19f00094" />
+
+  
+  <!--[if lt IE 9]>
+    <script src="../../_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  
+        <script src="../../_static/jquery.js?v=5d32c60e"></script>
+        <script src="../../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+        <script src="../../_static/documentation_options.js?v=187304be"></script>
+        <script src="../../_static/doctools.js?v=9a2dae69"></script>
+        <script src="../../_static/sphinx_highlight.js?v=dc90522c"></script>
+    <script src="../../_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="../../genindex/" />
+    <link rel="search" title="Search" href="../../search/" />
+    <link rel="prev" title="rcds.project — Projects" href="../project/" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+
+          
+          
+          <a href="../../" class="icon icon-home">
+            rCDS
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../../search/" method="get">
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <ul>
+<li class="toctree-l1"><a class="reference internal" href="../../">Introduction</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Contents</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../project/"><code class="docutils literal notranslate"><span class="pre">rcds.yaml</span></code> — Project Config</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../challenge/"><code class="docutils literal notranslate"><span class="pre">challenge.yaml</span></code> — Challenge Config</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../backends/">Deployment Backends</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../config-samples/">Sample Configs</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../contributing/">Contributing to rCDS</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Backends</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../backends/rctf/"><code class="docutils literal notranslate"><span class="pre">rctf</span></code> — rCTF</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../backends/k8s/"><code class="docutils literal notranslate"><span class="pre">k8s</span></code> — Kubernetes</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">API Reference</span></p>
+<ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="../project/"><code class="xref py py-mod docutils literal notranslate"><span class="pre">rcds.project</span></code> — Projects</a></li>
+<li class="toctree-l1 current"><a class="current reference internal" href="#"><code class="xref py py-mod docutils literal notranslate"><span class="pre">rcds.challenge</span></code> — Challenges</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#rcds.ChallengeLoader"><code class="docutils literal notranslate"><span class="pre">ChallengeLoader</span></code></a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#rcds.ChallengeLoader.load"><code class="docutils literal notranslate"><span class="pre">ChallengeLoader.load()</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="#rcds.Challenge"><code class="docutils literal notranslate"><span class="pre">Challenge</span></code></a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#rcds.Challenge.create_transaction"><code class="docutils literal notranslate"><span class="pre">Challenge.create_transaction()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#rcds.Challenge.get_relative_path"><code class="docutils literal notranslate"><span class="pre">Challenge.get_relative_path()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#rcds.Challenge.register_asset_source"><code class="docutils literal notranslate"><span class="pre">Challenge.register_asset_source()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#rcds.Challenge.render_description"><code class="docutils literal notranslate"><span class="pre">Challenge.render_description()</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="#module-rcds.challenge.config"><code class="xref py py-mod docutils literal notranslate"><span class="pre">rcds.challenge.config</span></code> - Config loading</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#rcds.challenge.config.ConfigLoader"><code class="docutils literal notranslate"><span class="pre">ConfigLoader</span></code></a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#rcds.challenge.config.ConfigLoader.check_config"><code class="docutils literal notranslate"><span class="pre">ConfigLoader.check_config()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#rcds.challenge.config.ConfigLoader.load_config"><code class="docutils literal notranslate"><span class="pre">ConfigLoader.load_config()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#rcds.challenge.config.ConfigLoader.parse_config"><code class="docutils literal notranslate"><span class="pre">ConfigLoader.parse_config()</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="#rcds.challenge.config.InvalidFlagError"><code class="docutils literal notranslate"><span class="pre">InvalidFlagError</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#rcds.challenge.config.TargetFileNotFoundError"><code class="docutils literal notranslate"><span class="pre">TargetFileNotFoundError</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#rcds.challenge.config.TargetNotFoundError"><code class="docutils literal notranslate"><span class="pre">TargetNotFoundError</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="#module-rcds.challenge.docker"><code class="xref py py-mod docutils literal notranslate"><span class="pre">rcds.challenge.docker</span></code> - Docker containers</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#rcds.challenge.docker.get_context_files"><code class="docutils literal notranslate"><span class="pre">get_context_files()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#rcds.challenge.docker.generate_sum"><code class="docutils literal notranslate"><span class="pre">generate_sum()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#rcds.challenge.docker.ContainerManager"><code class="docutils literal notranslate"><span class="pre">ContainerManager</span></code></a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#rcds.challenge.docker.ContainerManager.__init__"><code class="docutils literal notranslate"><span class="pre">ContainerManager.__init__()</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="#rcds.challenge.docker.Container"><code class="docutils literal notranslate"><span class="pre">Container</span></code></a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#rcds.challenge.docker.Container.IS_BUILDABLE"><code class="docutils literal notranslate"><span class="pre">Container.IS_BUILDABLE</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#rcds.challenge.docker.Container.build"><code class="docutils literal notranslate"><span class="pre">Container.build()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#rcds.challenge.docker.Container.get_full_tag"><code class="docutils literal notranslate"><span class="pre">Container.get_full_tag()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#rcds.challenge.docker.Container.is_built"><code class="docutils literal notranslate"><span class="pre">Container.is_built()</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="#rcds.challenge.docker.BuildableContainer"><code class="docutils literal notranslate"><span class="pre">BuildableContainer</span></code></a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#rcds.challenge.docker.BuildableContainer.IS_BUILDABLE"><code class="docutils literal notranslate"><span class="pre">BuildableContainer.IS_BUILDABLE</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#rcds.challenge.docker.BuildableContainer.build"><code class="docutils literal notranslate"><span class="pre">BuildableContainer.build()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#rcds.challenge.docker.BuildableContainer.get_full_tag"><code class="docutils literal notranslate"><span class="pre">BuildableContainer.get_full_tag()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#rcds.challenge.docker.BuildableContainer.is_built"><code class="docutils literal notranslate"><span class="pre">BuildableContainer.is_built()</span></code></a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../../">rCDS</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="../../" class="icon icon-home" aria-label="Home"></a></li>
+      <li class="breadcrumb-item active"><code class="xref py py-mod docutils literal notranslate"><span class="pre">rcds.challenge</span></code> — Challenges</li>
+      <li class="wy-breadcrumbs-aside">
+            <a href="../../_sources/api/challenge.rst.txt" rel="nofollow"> View page source</a>
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <section id="module-rcds.challenge">
+<span id="rcds-challenge-challenges"></span><h1><a class="reference internal" href="#module-rcds.challenge" title="rcds.challenge"><code class="xref py py-mod docutils literal notranslate"><span class="pre">rcds.challenge</span></code></a> — Challenges<a class="headerlink" href="#module-rcds.challenge" title="Link to this heading"></a></h1>
+<dl class="py class">
+<dt class="sig sig-object py" id="rcds.ChallengeLoader">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">rcds.</span></span><span class="sig-name descname"><span class="pre">ChallengeLoader</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">project</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="../project/#rcds.Project" title="rcds.Project"><span class="pre">rcds.Project</span></a></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/rcds/challenge/challenge/#ChallengeLoader"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#rcds.ChallengeLoader" title="Link to this definition"></a></dt>
+<dd><p>Class for loading a <a class="reference internal" href="#rcds.Challenge" title="rcds.Challenge"><code class="xref py py-class docutils literal notranslate"><span class="pre">Challenge</span></code></a> within the context of a
+<a class="reference internal" href="../project/#rcds.Project" title="rcds.Project"><code class="xref py py-class docutils literal notranslate"><span class="pre">rcds.Project</span></code></a></p>
+<dl class="py method">
+<dt class="sig sig-object py" id="rcds.ChallengeLoader.load">
+<span class="sig-name descname"><span class="pre">load</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">root</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3/library/pathlib.html#pathlib.Path" title="(in Python v3.12)"><span class="pre">Path</span></a></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/rcds/challenge/challenge/#ChallengeLoader.load"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#rcds.ChallengeLoader.load" title="Link to this definition"></a></dt>
+<dd><p>Load a challenge by path</p>
+<p>The challenge must be within the project associated with this loader.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>root</strong> (<a class="reference external" href="https://docs.python.org/3/library/pathlib.html#pathlib.Path" title="(in Python v3.12)"><em>pathlib.Path</em></a>) – Path to challenge root</p>
+</dd>
+</dl>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="rcds.Challenge">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">rcds.</span></span><span class="sig-name descname"><span class="pre">Challenge</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">project</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="../project/#rcds.Project" title="rcds.Project"><span class="pre">Project</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">root</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3/library/pathlib.html#pathlib.Path" title="(in Python v3.12)"><span class="pre">Path</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">config</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#dict" title="(in Python v3.12)"><span class="pre">dict</span></a></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/rcds/challenge/challenge/#Challenge"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#rcds.Challenge" title="Link to this definition"></a></dt>
+<dd><p>A challenge within a given <a class="reference internal" href="../project/#rcds.Project" title="rcds.Project"><code class="xref py py-class docutils literal notranslate"><span class="pre">rcds.Project</span></code></a></p>
+<p>This class is not meant to be constructed directly, use a <a class="reference internal" href="#rcds.ChallengeLoader" title="rcds.ChallengeLoader"><code class="xref py py-class docutils literal notranslate"><span class="pre">ChallengeLoader</span></code></a>
+to load a challenge.</p>
+<dl class="py method">
+<dt class="sig sig-object py" id="rcds.Challenge.create_transaction">
+<span class="sig-name descname"><span class="pre">create_transaction</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference internal" href="../project/#rcds.project.assets.AssetManagerTransaction" title="rcds.project.assets.AssetManagerTransaction"><span class="pre">AssetManagerTransaction</span></a></span></span><a class="reference internal" href="../../_modules/rcds/challenge/challenge/#Challenge.create_transaction"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#rcds.Challenge.create_transaction" title="Link to this definition"></a></dt>
+<dd><p>Get a transaction to update this challenge’s assets</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="rcds.Challenge.get_relative_path">
+<span class="sig-name descname"><span class="pre">get_relative_path</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference external" href="https://docs.python.org/3/library/pathlib.html#pathlib.Path" title="(in Python v3.12)"><span class="pre">Path</span></a></span></span><a class="reference internal" href="../../_modules/rcds/challenge/challenge/#Challenge.get_relative_path"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#rcds.Challenge.get_relative_path" title="Link to this definition"></a></dt>
+<dd><p>Utiity function to get this challenge’s path relative to the project root</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="rcds.Challenge.register_asset_source">
+<span class="sig-name descname"><span class="pre">register_asset_source</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">do_add</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.Callable" title="(in Python v3.12)"><span class="pre">Callable</span></a><span class="p"><span class="pre">[</span></span><span class="p"><span class="pre">[</span></span><a class="reference internal" href="../project/#rcds.project.assets.AssetManagerTransaction" title="rcds.project.assets.AssetManagerTransaction"><span class="pre">AssetManagerTransaction</span></a><span class="p"><span class="pre">]</span></span><span class="p"><span class="pre">,</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3/library/constants.html#None" title="(in Python v3.12)"><span class="pre">None</span></a><span class="p"><span class="pre">]</span></span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference external" href="https://docs.python.org/3/library/constants.html#None" title="(in Python v3.12)"><span class="pre">None</span></a></span></span><a class="reference internal" href="../../_modules/rcds/challenge/challenge/#Challenge.register_asset_source"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#rcds.Challenge.register_asset_source" title="Link to this definition"></a></dt>
+<dd><p>Register a function to add assets to the transaction for this challenge.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="rcds.Challenge.render_description">
+<span class="sig-name descname"><span class="pre">render_description</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.12)"><span class="pre">str</span></a></span></span><a class="reference internal" href="../../_modules/rcds/challenge/challenge/#Challenge.render_description"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#rcds.Challenge.render_description" title="Link to this definition"></a></dt>
+<dd><p>Render the challenge’s description template to a string</p>
+</dd></dl>
+
+</dd></dl>
+
+<section id="module-rcds.challenge.config">
+<span id="rcds-challenge-config-config-loading"></span><h2><a class="reference internal" href="#module-rcds.challenge.config" title="rcds.challenge.config"><code class="xref py py-mod docutils literal notranslate"><span class="pre">rcds.challenge.config</span></code></a> - Config loading<a class="headerlink" href="#module-rcds.challenge.config" title="Link to this heading"></a></h2>
+<dl class="py class">
+<dt class="sig sig-object py" id="rcds.challenge.config.ConfigLoader">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">rcds.challenge.config.</span></span><span class="sig-name descname"><span class="pre">ConfigLoader</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">project</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="../project/#rcds.Project" title="rcds.Project"><span class="pre">Project</span></a></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/rcds/challenge/config/#ConfigLoader"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#rcds.challenge.config.ConfigLoader" title="Link to this definition"></a></dt>
+<dd><p>Object that manages loading challenge config files</p>
+<dl class="py method">
+<dt class="sig sig-object py" id="rcds.challenge.config.ConfigLoader.check_config">
+<span class="sig-name descname"><span class="pre">check_config</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">config_file</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3/library/pathlib.html#pathlib.Path" title="(in Python v3.12)"><span class="pre">Path</span></a></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.Tuple" title="(in Python v3.12)"><span class="pre">Tuple</span></a><span class="p"><span class="pre">[</span></span><a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.Dict" title="(in Python v3.12)"><span class="pre">Dict</span></a><span class="p"><span class="pre">[</span></span><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.12)"><span class="pre">str</span></a><span class="p"><span class="pre">,</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.Any" title="(in Python v3.12)"><span class="pre">Any</span></a><span class="p"><span class="pre">]</span></span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3/library/constants.html#None" title="(in Python v3.12)"><span class="pre">None</span></a><span class="p"><span class="pre">,</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.Iterable" title="(in Python v3.12)"><span class="pre">Iterable</span></a><span class="p"><span class="pre">[</span></span><span class="pre">ValidationError</span><span class="p"><span class="pre">]</span></span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3/library/constants.html#None" title="(in Python v3.12)"><span class="pre">None</span></a><span class="p"><span class="pre">]</span></span></span></span><a class="reference internal" href="../../_modules/rcds/challenge/config/#ConfigLoader.check_config"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#rcds.challenge.config.ConfigLoader.check_config" title="Link to this definition"></a></dt>
+<dd><p>Load and validate a config file, returning any errors encountered.</p>
+<p>If the config file is valid, the tuple returned contains the loaded config as
+the first element, and the second element is None. Otherwise, the second
+element is an iterable of errors that occurred during validation</p>
+<p>This method wraps <a class="reference internal" href="#rcds.challenge.config.ConfigLoader.parse_config" title="rcds.challenge.config.ConfigLoader.parse_config"><code class="xref py py-meth docutils literal notranslate"><span class="pre">parse_config()</span></code></a>.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>config_file</strong> (<a class="reference external" href="https://docs.python.org/3/library/pathlib.html#pathlib.Path" title="(in Python v3.12)"><em>pathlib.Path</em></a>) – The challenge config to load</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="rcds.challenge.config.ConfigLoader.load_config">
+<span class="sig-name descname"><span class="pre">load_config</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">config_file</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3/library/pathlib.html#pathlib.Path" title="(in Python v3.12)"><span class="pre">Path</span></a></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.Dict" title="(in Python v3.12)"><span class="pre">Dict</span></a><span class="p"><span class="pre">[</span></span><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.12)"><span class="pre">str</span></a><span class="p"><span class="pre">,</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.Any" title="(in Python v3.12)"><span class="pre">Any</span></a><span class="p"><span class="pre">]</span></span></span></span><a class="reference internal" href="../../_modules/rcds/challenge/config/#ConfigLoader.load_config"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#rcds.challenge.config.ConfigLoader.load_config" title="Link to this definition"></a></dt>
+<dd><p>Loads a config file, or throw an exception if it is not valid</p>
+<p>This method wraps <a class="reference internal" href="#rcds.challenge.config.ConfigLoader.check_config" title="rcds.challenge.config.ConfigLoader.check_config"><code class="xref py py-meth docutils literal notranslate"><span class="pre">check_config()</span></code></a>, and throws the first error returned
+if there are any errors.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>config_file</strong> (<a class="reference external" href="https://docs.python.org/3/library/pathlib.html#pathlib.Path" title="(in Python v3.12)"><em>pathlib.Path</em></a>) – The challenge config to load</p>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>The loaded config</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="rcds.challenge.config.ConfigLoader.parse_config">
+<span class="sig-name descname"><span class="pre">parse_config</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">config_file</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3/library/pathlib.html#pathlib.Path" title="(in Python v3.12)"><span class="pre">Path</span></a></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.Iterable" title="(in Python v3.12)"><span class="pre">Iterable</span></a><span class="p"><span class="pre">[</span></span><span class="pre">ValidationError</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.Dict" title="(in Python v3.12)"><span class="pre">Dict</span></a><span class="p"><span class="pre">[</span></span><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.12)"><span class="pre">str</span></a><span class="p"><span class="pre">,</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.Any" title="(in Python v3.12)"><span class="pre">Any</span></a><span class="p"><span class="pre">]</span></span><span class="p"><span class="pre">]</span></span></span></span><a class="reference internal" href="../../_modules/rcds/challenge/config/#ConfigLoader.parse_config"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#rcds.challenge.config.ConfigLoader.parse_config" title="Link to this definition"></a></dt>
+<dd><p>Load and validate a config file, returning both the config and any
+errors encountered.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>config_file</strong> (<a class="reference external" href="https://docs.python.org/3/library/pathlib.html#pathlib.Path" title="(in Python v3.12)"><em>pathlib.Path</em></a>) – The challenge config to load</p>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>Iterable containing any errors (all instances of
+<code class="xref py py-class docutils literal notranslate"><span class="pre">rcds.errors.ValidationError</span></code>) and the parsed config. The config will
+always be last.</p>
+</dd>
+</dl>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="py exception">
+<dt class="sig sig-object py" id="rcds.challenge.config.InvalidFlagError">
+<em class="property"><span class="pre">exception</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">rcds.challenge.config.</span></span><span class="sig-name descname"><span class="pre">InvalidFlagError</span></span><a class="reference internal" href="../../_modules/rcds/challenge/config/#InvalidFlagError"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#rcds.challenge.config.InvalidFlagError" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py exception">
+<dt class="sig sig-object py" id="rcds.challenge.config.TargetFileNotFoundError">
+<em class="property"><span class="pre">exception</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">rcds.challenge.config.</span></span><span class="sig-name descname"><span class="pre">TargetFileNotFoundError</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">message</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.12)"><span class="pre">str</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">target</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3/library/pathlib.html#pathlib.Path" title="(in Python v3.12)"><span class="pre">Path</span></a></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/rcds/challenge/config/#TargetFileNotFoundError"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#rcds.challenge.config.TargetFileNotFoundError" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py exception">
+<dt class="sig sig-object py" id="rcds.challenge.config.TargetNotFoundError">
+<em class="property"><span class="pre">exception</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">rcds.challenge.config.</span></span><span class="sig-name descname"><span class="pre">TargetNotFoundError</span></span><a class="reference internal" href="../../_modules/rcds/challenge/config/#TargetNotFoundError"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#rcds.challenge.config.TargetNotFoundError" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+</section>
+<section id="module-rcds.challenge.docker">
+<span id="rcds-challenge-docker-docker-containers"></span><h2><a class="reference internal" href="#module-rcds.challenge.docker" title="rcds.challenge.docker"><code class="xref py py-mod docutils literal notranslate"><span class="pre">rcds.challenge.docker</span></code></a> - Docker containers<a class="headerlink" href="#module-rcds.challenge.docker" title="Link to this heading"></a></h2>
+<dl class="py function">
+<dt class="sig sig-object py" id="rcds.challenge.docker.get_context_files">
+<span class="sig-prename descclassname"><span class="pre">rcds.challenge.docker.</span></span><span class="sig-name descname"><span class="pre">get_context_files</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">root</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3/library/pathlib.html#pathlib.Path" title="(in Python v3.12)"><span class="pre">Path</span></a></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.Iterator" title="(in Python v3.12)"><span class="pre">Iterator</span></a><span class="p"><span class="pre">[</span></span><a class="reference external" href="https://docs.python.org/3/library/pathlib.html#pathlib.Path" title="(in Python v3.12)"><span class="pre">Path</span></a><span class="p"><span class="pre">]</span></span></span></span><a class="reference internal" href="../../_modules/rcds/challenge/docker/#get_context_files"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#rcds.challenge.docker.get_context_files" title="Link to this definition"></a></dt>
+<dd><p>Generate a list of all files in the build context of the specified Dockerfile</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>root</strong> (<a class="reference external" href="https://docs.python.org/3/library/pathlib.html#pathlib.Path" title="(in Python v3.12)"><em>pathlib.Path</em></a>) – Path to the containing directory of the Dockerfile to
+analyze</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="rcds.challenge.docker.generate_sum">
+<span class="sig-prename descclassname"><span class="pre">rcds.challenge.docker.</span></span><span class="sig-name descname"><span class="pre">generate_sum</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">root</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3/library/pathlib.html#pathlib.Path" title="(in Python v3.12)"><span class="pre">Path</span></a></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.12)"><span class="pre">str</span></a></span></span><a class="reference internal" href="../../_modules/rcds/challenge/docker/#generate_sum"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#rcds.challenge.docker.generate_sum" title="Link to this definition"></a></dt>
+<dd><p>Generate a checksum of all files in the build context of the specified directory</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>root</strong> (<a class="reference external" href="https://docs.python.org/3/library/pathlib.html#pathlib.Path" title="(in Python v3.12)"><em>pathlib.Path</em></a>) – Path to the containing directory of the Dockerfile to
+analyze</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="rcds.challenge.docker.ContainerManager">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">rcds.challenge.docker.</span></span><span class="sig-name descname"><span class="pre">ContainerManager</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">challenge</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="#rcds.Challenge" title="rcds.Challenge"><span class="pre">Challenge</span></a></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/rcds/challenge/docker/#ContainerManager"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#rcds.challenge.docker.ContainerManager" title="Link to this definition"></a></dt>
+<dd><p>Object managing all containers defined by a given <a class="reference internal" href="#rcds.Challenge" title="rcds.Challenge"><code class="xref py py-class docutils literal notranslate"><span class="pre">rcds.Challenge</span></code></a></p>
+<dl class="py method">
+<dt class="sig sig-object py" id="rcds.challenge.docker.ContainerManager.__init__">
+<span class="sig-name descname"><span class="pre">__init__</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">challenge</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="#rcds.Challenge" title="rcds.Challenge"><span class="pre">Challenge</span></a></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/rcds/challenge/docker/#ContainerManager.__init__"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#rcds.challenge.docker.ContainerManager.__init__" title="Link to this definition"></a></dt>
+<dd><dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>challenge</strong> (<a class="reference internal" href="#rcds.Challenge" title="rcds.Challenge"><em>rcds.Challenge</em></a>) – The challenge that this ContainerManager
+belongs to</p>
+</dd>
+</dl>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="rcds.challenge.docker.Container">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">rcds.challenge.docker.</span></span><span class="sig-name descname"><span class="pre">Container</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">*</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">container_manager</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="#rcds.challenge.docker.ContainerManager" title="rcds.challenge.docker.ContainerManager"><span class="pre">ContainerManager</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">name</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.12)"><span class="pre">str</span></a></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/rcds/challenge/docker/#Container"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#rcds.challenge.docker.Container" title="Link to this definition"></a></dt>
+<dd><p>A single container</p>
+<dl class="py attribute">
+<dt class="sig sig-object py" id="rcds.challenge.docker.Container.IS_BUILDABLE">
+<span class="sig-name descname"><span class="pre">IS_BUILDABLE</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.12)"><span class="pre">bool</span></a></em><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">False</span></em><a class="headerlink" href="#rcds.challenge.docker.Container.IS_BUILDABLE" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="rcds.challenge.docker.Container.build">
+<span class="sig-name descname"><span class="pre">build</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">force</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.12)"><span class="pre">bool</span></a></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">False</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference external" href="https://docs.python.org/3/library/constants.html#None" title="(in Python v3.12)"><span class="pre">None</span></a></span></span><a class="reference internal" href="../../_modules/rcds/challenge/docker/#Container.build"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#rcds.challenge.docker.Container.build" title="Link to this definition"></a></dt>
+<dd><p>Build the challenge if applicable and necessary.</p>
+<p>For challenges that are not buildable (<a class="reference internal" href="#rcds.challenge.docker.Container.IS_BUILDABLE" title="rcds.challenge.docker.Container.IS_BUILDABLE"><code class="xref py py-const docutils literal notranslate"><span class="pre">IS_BUILDABLE</span></code></a> is False), this
+method is a no-op</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>force</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.12)"><em>bool</em></a>) – Force a rebuild of this container even if it is up-to-date</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="rcds.challenge.docker.Container.get_full_tag">
+<span class="sig-name descname"><span class="pre">get_full_tag</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.12)"><span class="pre">str</span></a></span></span><a class="reference internal" href="../../_modules/rcds/challenge/docker/#Container.get_full_tag"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#rcds.challenge.docker.Container.get_full_tag" title="Link to this definition"></a></dt>
+<dd><p>Get the full image tag (e.g. <code class="docutils literal notranslate"><span class="pre">k8s.gcr.io/etcd:3.4.3-0</span></code>) for this container</p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns<span class="colon">:</span></dt>
+<dd class="field-odd"><p>The image tag</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="rcds.challenge.docker.Container.is_built">
+<span class="sig-name descname"><span class="pre">is_built</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.12)"><span class="pre">bool</span></a></span></span><a class="reference internal" href="../../_modules/rcds/challenge/docker/#Container.is_built"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#rcds.challenge.docker.Container.is_built" title="Link to this definition"></a></dt>
+<dd><p>If the container is buildable (<a class="reference internal" href="#rcds.challenge.docker.Container.IS_BUILDABLE" title="rcds.challenge.docker.Container.IS_BUILDABLE"><code class="xref py py-const docutils literal notranslate"><span class="pre">IS_BUILDABLE</span></code></a> is <cite>True</cite>), this method
+returns whether or not the container is already built (and up-to-date). For
+non-buildable containers, this method always returns <cite>True</cite>.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns<span class="colon">:</span></dt>
+<dd class="field-odd"><p>Whether or not the container is built</p>
+</dd>
+</dl>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="rcds.challenge.docker.BuildableContainer">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">rcds.challenge.docker.</span></span><span class="sig-name descname"><span class="pre">BuildableContainer</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/rcds/challenge/docker/#BuildableContainer"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#rcds.challenge.docker.BuildableContainer" title="Link to this definition"></a></dt>
+<dd><p>A container that is built from source</p>
+<dl class="py attribute">
+<dt class="sig sig-object py" id="rcds.challenge.docker.BuildableContainer.IS_BUILDABLE">
+<span class="sig-name descname"><span class="pre">IS_BUILDABLE</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.12)"><span class="pre">bool</span></a></em><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">True</span></em><a class="headerlink" href="#rcds.challenge.docker.BuildableContainer.IS_BUILDABLE" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="rcds.challenge.docker.BuildableContainer.build">
+<span class="sig-name descname"><span class="pre">build</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">force</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.12)"><span class="pre">bool</span></a></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">False</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference external" href="https://docs.python.org/3/library/constants.html#None" title="(in Python v3.12)"><span class="pre">None</span></a></span></span><a class="reference internal" href="../../_modules/rcds/challenge/docker/#BuildableContainer.build"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#rcds.challenge.docker.BuildableContainer.build" title="Link to this definition"></a></dt>
+<dd><p>Build the challenge if applicable and necessary.</p>
+<p>For challenges that are not buildable (<a class="reference internal" href="#rcds.challenge.docker.BuildableContainer.IS_BUILDABLE" title="rcds.challenge.docker.BuildableContainer.IS_BUILDABLE"><code class="xref py py-const docutils literal notranslate"><span class="pre">IS_BUILDABLE</span></code></a> is False), this
+method is a no-op</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>force</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.12)"><em>bool</em></a>) – Force a rebuild of this container even if it is up-to-date</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="rcds.challenge.docker.BuildableContainer.get_full_tag">
+<span class="sig-name descname"><span class="pre">get_full_tag</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.12)"><span class="pre">str</span></a></span></span><a class="reference internal" href="../../_modules/rcds/challenge/docker/#BuildableContainer.get_full_tag"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#rcds.challenge.docker.BuildableContainer.get_full_tag" title="Link to this definition"></a></dt>
+<dd><p>Get the full image tag (e.g. <code class="docutils literal notranslate"><span class="pre">k8s.gcr.io/etcd:3.4.3-0</span></code>) for this container</p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns<span class="colon">:</span></dt>
+<dd class="field-odd"><p>The image tag</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="rcds.challenge.docker.BuildableContainer.is_built">
+<span class="sig-name descname"><span class="pre">is_built</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.12)"><span class="pre">bool</span></a></span></span><a class="reference internal" href="../../_modules/rcds/challenge/docker/#BuildableContainer.is_built"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#rcds.challenge.docker.BuildableContainer.is_built" title="Link to this definition"></a></dt>
+<dd><p>Checks if a container built with a build context with a matching hash exists,
+either locally or remotely.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns<span class="colon">:</span></dt>
+<dd class="field-odd"><p>Whether or not the image was found</p>
+</dd>
+</dl>
+</dd></dl>
+
+</dd></dl>
+
+</section>
+</section>
+
+
+           </div>
+          </div>
+          <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
+        <a href="../project/" class="btn btn-neutral float-left" title="rcds.project — Projects" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2020, redpwn.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

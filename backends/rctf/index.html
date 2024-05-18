@@ -1,0 +1,269 @@
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" data-content_root="../../">
+<head>
+  <meta charset="utf-8" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>rctf — rCTF &mdash; rCDS  documentation</title>
+      <link rel="stylesheet" type="text/css" href="../../_static/pygments.css?v=80d5e7a1" />
+      <link rel="stylesheet" type="text/css" href="../../_static/css/theme.css?v=19f00094" />
+
+  
+  <!--[if lt IE 9]>
+    <script src="../../_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  
+        <script src="../../_static/jquery.js?v=5d32c60e"></script>
+        <script src="../../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+        <script src="../../_static/documentation_options.js?v=187304be"></script>
+        <script src="../../_static/doctools.js?v=9a2dae69"></script>
+        <script src="../../_static/sphinx_highlight.js?v=dc90522c"></script>
+    <script src="../../_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="../../genindex/" />
+    <link rel="search" title="Search" href="../../search/" />
+    <link rel="next" title="k8s — Kubernetes" href="../k8s/" />
+    <link rel="prev" title="Contributing to rCDS" href="../../contributing/" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+
+          
+          
+          <a href="../../" class="icon icon-home">
+            rCDS
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../../search/" method="get">
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <ul>
+<li class="toctree-l1"><a class="reference internal" href="../../">Introduction</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Contents</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../project/"><code class="docutils literal notranslate"><span class="pre">rcds.yaml</span></code> — Project Config</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../challenge/"><code class="docutils literal notranslate"><span class="pre">challenge.yaml</span></code> — Challenge Config</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../">Running rCDS for an Event</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../#deployment-backends">Deployment Backends</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../config-samples/">Sample Configs</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../contributing/">Contributing to rCDS</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Backends</span></p>
+<ul class="current">
+<li class="toctree-l1 current"><a class="current reference internal" href="#"><code class="docutils literal notranslate"><span class="pre">rctf</span></code> — rCTF</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#additional-challenge-properties">Additional Challenge Properties</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#options-reference">Options Reference</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../k8s/"><code class="docutils literal notranslate"><span class="pre">k8s</span></code> — Kubernetes</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">API Reference</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../api/project/"><code class="xref py py-mod docutils literal notranslate"><span class="pre">rcds.project</span></code> — Projects</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../api/challenge/"><code class="xref py py-mod docutils literal notranslate"><span class="pre">rcds.challenge</span></code> — Challenges</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../../">rCDS</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="../../" class="icon icon-home" aria-label="Home"></a></li>
+      <li class="breadcrumb-item active"><code class="docutils literal notranslate"><span class="pre">rctf</span></code> — rCTF</li>
+      <li class="wy-breadcrumbs-aside">
+            <a href="../../_sources/backends/rctf/index.rst.txt" rel="nofollow"> View page source</a>
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <section id="rctf-rctf">
+<h1><code class="docutils literal notranslate"><span class="pre">rctf</span></code> — rCTF<a class="headerlink" href="#rctf-rctf" title="Link to this heading"></a></h1>
+<p>This backend deploys challenges to <a class="reference external" href="https://rctf.redpwn.net/">rCTF</a>. The options <code class="docutils literal notranslate"><span class="pre">url</span></code> and <code class="docutils literal notranslate"><span class="pre">token</span></code>
+specify the URL of the rCTF instance and the token of the admin account to use,
+respectively. Both of these will be set from the environment variables
+<code class="docutils literal notranslate"><span class="pre">RCDS_RCTF_URL</span></code> and <code class="docutils literal notranslate"><span class="pre">RCDS_RCTF_TOKEN</span></code> respectively, if they exist.
+Challenges with a <code class="docutils literal notranslate"><span class="pre">value</span></code> set are assumed to be statically-scored; all other
+challenges are dynamically-scored according to the global <code class="docutils literal notranslate"><span class="pre">scoring</span></code> config
+(between <code class="docutils literal notranslate"><span class="pre">scoring.minPoints</span></code> and <code class="docutils literal notranslate"><span class="pre">scoring.maxPoints</span></code>). rCTF does not support
+regex flags.</p>
+<p>The <code class="docutils literal notranslate"><span class="pre">sortOrder</span></code> option allows you to automatically set the <code class="docutils literal notranslate"><span class="pre">sortWeight</span></code>
+fields on challenges based on an ordering provided in this key. Listed
+challenges are assigned a <code class="docutils literal notranslate"><span class="pre">sortWeight</span></code> equal to its index in the array
+multiplied by -1. This means that if all the challenges have the same score and
+solve count, they will be displayed with the first element of the array at the
+top.</p>
+<section id="additional-challenge-properties">
+<h2>Additional Challenge Properties<a class="headerlink" href="#additional-challenge-properties" title="Link to this heading"></a></h2>
+<p><code class="docutils literal notranslate"><span class="pre">author</span></code> and <code class="docutils literal notranslate"><span class="pre">category</span></code> are required.</p>
+<p><code class="docutils literal notranslate"><span class="pre">tiebreakEligible</span></code> (bool): whether or not this challenge factors into time-based
+tiebreakers. Defaults to <code class="docutils literal notranslate"><span class="pre">true</span></code>.</p>
+<p><code class="docutils literal notranslate"><span class="pre">sortWeight</span></code> (number): rCTF sort weight parameter. Ignored if the challenge is
+listed in the global <code class="docutils literal notranslate"><span class="pre">sortOrder</span></code> option. Defaults to <code class="docutils literal notranslate"><span class="pre">0</span></code>.</p>
+</section>
+<section id="options-reference">
+<h2>Options Reference<a class="headerlink" href="#options-reference" title="Link to this heading"></a></h2>
+<table class="docutils align-default">
+<tbody>
+<tr class="row-odd"><td colspan="4"><p><a class="reference external" href="http://rcds.redpwn.com/schemas/backends/rctf/options.yaml">http://rcds.redpwn.com/schemas/backends/rctf/options.yaml</a></p></td>
+</tr>
+<tr class="row-even"><td><p>type</p></td>
+<td colspan="3"><p><em>object</em></p></td>
+</tr>
+<tr class="row-odd"><td><p>default</p></td>
+<td colspan="3"></td>
+</tr>
+<tr class="row-even"><td colspan="4"><p>properties</p></td>
+</tr>
+<tr class="row-odd"><td><ul class="simple">
+<li><p><strong>url</strong></p></li>
+</ul>
+</td>
+<td><p>type</p></td>
+<td colspan="2"><p><em>string</em></p></td>
+</tr>
+<tr class="row-even"><td><ul class="simple">
+<li><p><strong>token</strong></p></li>
+</ul>
+</td>
+<td><p>type</p></td>
+<td colspan="2"><p><em>string</em></p></td>
+</tr>
+<tr class="row-odd"><td rowspan="9"><ul class="simple">
+<li><p><strong>scoring</strong></p></li>
+</ul>
+</td>
+<td><p>type</p></td>
+<td colspan="2"><p><em>object</em></p></td>
+</tr>
+<tr class="row-even"><td><p>default</p></td>
+<td colspan="2"></td>
+</tr>
+<tr class="row-odd"><td colspan="3"><p>properties</p></td>
+</tr>
+<tr class="row-even"><td rowspan="3"><ul class="simple">
+<li><p><strong>minPoints</strong></p></li>
+</ul>
+</td>
+<td colspan="2"><p>Minimum points for dynamically-scored challenges</p></td>
+</tr>
+<tr class="row-odd"><td><p>type</p></td>
+<td><p><em>integer</em></p></td>
+</tr>
+<tr class="row-even"><td><p>default</p></td>
+<td><p>100</p></td>
+</tr>
+<tr class="row-odd"><td rowspan="3"><ul class="simple">
+<li><p><strong>maxPoints</strong></p></li>
+</ul>
+</td>
+<td colspan="2"><p>Maximum points for dynamically-scored challenges</p></td>
+</tr>
+<tr class="row-even"><td><p>type</p></td>
+<td><p><em>integer</em></p></td>
+</tr>
+<tr class="row-odd"><td><p>default</p></td>
+<td><p>500</p></td>
+</tr>
+<tr class="row-even"><td rowspan="3"><ul class="simple">
+<li><p>sortOrder</p></li>
+</ul>
+</td>
+<td colspan="3"><p>List of challenge IDs - their sortWeights will be set in this order</p></td>
+</tr>
+<tr class="row-odd"><td><p>type</p></td>
+<td colspan="2"><p><em>array</em></p></td>
+</tr>
+<tr class="row-even"><td><p>items</p></td>
+<td><p>type</p></td>
+<td><p><em>string</em></p></td>
+</tr>
+</tbody>
+</table>
+<p>Raw schema:</p>
+<div class="highlight-yaml notranslate"><div class="highlight"><pre><span></span><span class="nt">$schema</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">http://json-schema.org/draft-07/schema#</span>
+<span class="nt">$id</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">http://rcds.redpwn.com/schemas/backends/rctf/options.yaml</span>
+<span class="nt">type</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">object</span>
+<span class="nt">properties</span><span class="p">:</span>
+<span class="w">  </span><span class="nt">url</span><span class="p">:</span>
+<span class="w">    </span><span class="nt">type</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">string</span>
+<span class="w">  </span><span class="nt">token</span><span class="p">:</span>
+<span class="w">    </span><span class="nt">type</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">string</span>
+<span class="w">  </span><span class="nt">scoring</span><span class="p">:</span>
+<span class="w">    </span><span class="nt">type</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">object</span>
+<span class="w">    </span><span class="nt">properties</span><span class="p">:</span>
+<span class="w">      </span><span class="nt">minPoints</span><span class="p">:</span>
+<span class="w">        </span><span class="nt">type</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">integer</span>
+<span class="w">        </span><span class="nt">description</span><span class="p">:</span><span class="w"> </span><span class="p p-Indicator">&gt;-</span>
+<span class="w">          </span><span class="no">Minimum points for dynamically-scored challenges</span>
+<span class="w">        </span><span class="nt">default</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">100</span>
+<span class="w">      </span><span class="nt">maxPoints</span><span class="p">:</span>
+<span class="w">        </span><span class="nt">type</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">integer</span>
+<span class="w">        </span><span class="nt">description</span><span class="p">:</span><span class="w"> </span><span class="p p-Indicator">&gt;-</span>
+<span class="w">          </span><span class="no">Maximum points for dynamically-scored challenges</span>
+<span class="w">        </span><span class="nt">default</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">500</span>
+<span class="w">    </span><span class="nt">required</span><span class="p">:</span><span class="w"> </span><span class="p p-Indicator">[</span><span class="s">&#39;minPoints&#39;</span><span class="p p-Indicator">,</span><span class="w"> </span><span class="s">&#39;maxPoints&#39;</span><span class="p p-Indicator">]</span>
+<span class="w">    </span><span class="nt">default</span><span class="p">:</span><span class="w"> </span><span class="p p-Indicator">{}</span>
+<span class="w">  </span><span class="nt">sortOrder</span><span class="p">:</span>
+<span class="w">    </span><span class="nt">type</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">array</span>
+<span class="w">    </span><span class="nt">description</span><span class="p">:</span><span class="w"> </span><span class="p p-Indicator">&gt;-</span>
+<span class="w">      </span><span class="no">List of challenge IDs - their sortWeights will be set in this order</span>
+<span class="w">    </span><span class="nt">items</span><span class="p">:</span>
+<span class="w">      </span><span class="nt">type</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">string</span>
+<span class="nt">required</span><span class="p">:</span><span class="w"> </span><span class="p p-Indicator">[</span><span class="s">&#39;url&#39;</span><span class="p p-Indicator">,</span><span class="w"> </span><span class="s">&#39;token&#39;</span><span class="p p-Indicator">,</span><span class="w"> </span><span class="s">&#39;scoring&#39;</span><span class="p p-Indicator">]</span>
+<span class="nt">default</span><span class="p">:</span><span class="w"> </span><span class="p p-Indicator">{}</span>
+</pre></div>
+</div>
+</section>
+</section>
+
+
+           </div>
+          </div>
+          <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
+        <a href="../../contributing/" class="btn btn-neutral float-left" title="Contributing to rCDS" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+        <a href="../k8s/" class="btn btn-neutral float-right" title="k8s — Kubernetes" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2020, redpwn.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>
